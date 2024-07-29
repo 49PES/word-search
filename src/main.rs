@@ -49,8 +49,8 @@ impl Display for Board {
 
 impl Board {
     fn new(grid: Vec<Vec<char>>, words: Vec<String>) -> Self {
-        let mut indices: HashSet<Posn> = HashSet::new();
-        indices.insert(Posn { row: 1, col: 2 });
+        let mut word_indices: HashSet<Posn> = HashSet::new();
+        word_indices.insert(Posn { row: 1, col: 2 }); // For testing colors
 
         let row_len = grid.len();
         let col_len = grid[0].len();
@@ -60,7 +60,7 @@ impl Board {
             words,
             row_len,
             col_len,
-            word_indices: indices,
+            word_indices,
         }
     }
 

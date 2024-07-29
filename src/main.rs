@@ -19,13 +19,6 @@ struct Board {
 
 impl Display for Board {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        // for row in &self.grid {
-        //     for ch in row {
-        //         write!(f, "{}", ch)?;
-        //     }
-        //     writeln!(f)?;
-        // }
-
         for i in 0..self.grid.len() {
             for j in 0..self.grid[0].len() {
                 let ch: char = self.grid[i][j];

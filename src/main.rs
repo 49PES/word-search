@@ -9,20 +9,28 @@ struct Posn {
     col: usize,
 }
 
+impl Posn {
+    fn new(row: usize, col: usize) -> Self {
+        Posn { row, col }
+    }
+}
+
 /// Board with 2D character vector for the grid and 1D String vector for the words
 #[derive(Debug)]
 struct Board {
     grid: Vec<Vec<char>>,
     words: Vec<String>,
+    row_len: usize,
+    col_len: usize,
     word_indices: HashSet<Posn>,
 }
 
 impl Display for Board {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        for i in 0..self.grid.len() {
-            for j in 0..self.grid[0].len() {
-                let ch: char = self.grid[i][j];
-                let posn = Posn { row: i, col: j };
+        for i in 0..self.row_len {
+            for j in 0..self.col_len {
+                let posn = Posn::new(i, j);
+                let ch: char = self.get_letter(posn);
                 if self.word_indices.contains(&posn) {
                     write!(f, "{}", ch.to_string().red())?;
                 } else {
@@ -43,12 +51,32 @@ impl Board {
     fn new(grid: Vec<Vec<char>>, words: Vec<String>) -> Self {
         let mut indices: HashSet<Posn> = HashSet::new();
         indices.insert(Posn { row: 1, col: 2 });
+
+        let row_len = grid.len();
+        let col_len = grid[0].len();
+
         Board {
             grid,
             words,
+            row_len,
+            col_len,
             word_indices: indices,
         }
     }
+
+    fn get_letter(&self, posn: Posn) -> char {
+        self.grid[posn.row][posn.col]
+    }
+
+    // fn get_positions(&self) -> Vec<Posn> {
+    //     (0..self.row_len)
+    //         .flat_map(|r| {
+    //             (0..self.col_len)
+    //                 .map(|c| Posn::new(r, c))
+    //                 .collect::<Vec<Posn>>()
+    //         })
+    //         .collect()
+    // }
 }
 
 fn main() {
